@@ -35,7 +35,7 @@ function App() {
               <Link to="/">글 목록</Link>
             </li>
             <li className="nav">
-              방명록123123
+              방명록
             </li>
           </ul>
         </header>
