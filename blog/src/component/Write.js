@@ -1,6 +1,6 @@
 import { Head } from './Head'
 export function Write(props) {
-  const { setHlist, setPlist, addPost } = props;
+  const { setHlist, setPlist, addPost, editPost, hlist, plist, postIndex } = props;
 
   return (
     <>
@@ -8,10 +8,13 @@ export function Write(props) {
       <main>
         <article>
           <div className="list">
+            <hr/><hr/><br/>
+            <h2>글 {postIndex != null ? "수정" : "작성"}</h2><br/><hr/><hr/><br/>
             <h2>
               <label>
                 <input
                   className='titlebox'
+                  value={hlist}
                   onChange={(e) => {
                     setHlist(e.target.value);
                   }}
@@ -25,6 +28,7 @@ export function Write(props) {
               <label>
                 <textarea
                   className="box"
+                  value={plist}
                   onChange={(e) => {
                     setPlist(e.target.value);
                   }}
@@ -34,7 +38,7 @@ export function Write(props) {
               </label>
             </p>
           </div>
-          <button onClick={addPost}>발행하기</button>
+          <button onClick={postIndex != null ? editPost : addPost}>{postIndex != null ? "수정하기" : "발행하기"}</button>
         </article>
       </main>
     </>

@@ -7,7 +7,10 @@ export function Head() {
         <h2><Link to="/">H's PortFolio</Link></h2>
       </div>
       <ul className="header-nav">
-        <li className='nav-on'>
+        <li className='nav'>
+          <Link to="/management">글 쓰기</Link>
+        </li>
+        <li className='nav'>
           <Link to="/">글 목록</Link>
         </li>
         <li className="nav">
