@@ -136,6 +136,15 @@ p{
   font-size: var(--font-size-ssm);
 }
 
+.nav{
+  color: gray;
+}
+
 .nav:hover{
+  color: gainsboro;
   border-bottom: 3px solid ghostwhite;
+}
+
+.nav:visited{
+  color: white;
 }

@@ -1,38 +1,155 @@
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+
 .App {
   text-align: center;
+  padding: 3em;
+  padding-top: 1.5em;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* ==== 리셋 구간 ==== */
+body{
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: 'NanumSquare';
+}
+h1, h2, h3, h4, h5, h6, dt, dd{
+  font-size: inherit;
+  font-weight: normal;
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+main{
+  margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+p {
+  margin-top: 2em;
+  font-size: var(--font-size-ssm);
+}
+
+strong, em {
+  font-weight: inherit;
+  font-style: normal;
+}
+
+ul, ol {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+
+/* ==== 반복 함수 생성 ==== */
+:root {
+  --body-margin : 0.5em;
+  --font-size-md: clamp(1.5rem, 1.5vw, 2.5rem);
+  --font-size-sm: clamp(1rem, 1.2vw, 2rem);
+  --font-size-smm: clamp(0.7em, 1.1vw, 1.8em);
+  --font-size-ssm: clamp(0.5em, 1vw, 1.5em);
+}
+
+
+/* ==== 헤더 CSS ==== */
+header{
+  display: flex;
   color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: black;
+  z-index: 999;
+  padding: 1.2em;
+  box-sizing: border-box;
+  position: fixed;
+  align-items: center;
+  align-content: center;
 }
 
-.App-link {
-  color: #61dafb;
+.me-auto{
+  display: inline-flex;
+  margin: var(--body-margin);
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+  align-content: center;
+  gap: 1.5em;
+  margin-right: 2em;
+  white-space: nowrap;
+}
+.bg{
+  display: flex;
+  gap: 1em;
+}
+.main-bg{
+  width: 50%;
+  height: 250px;
+  background-color: lightgray;
+  border-radius: 2dvw;
+  background-size: cover;
+  background-position: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container{
+  margin-top: 1em;
+}
+.col-md{
+  border-bottom: 1px solid gray;
+}
+
+h1{
+  font-size: var(--font-size-md);
+  margin-bottom: 1em;
+}
+
+h4{
+  font-size: var(--font-size-smm);
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+button{
+  margin-bottom: 1em;
+}
+
+.detail{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid gray;
+}
+
+.detail-text{
+  margin: 3em 3em 3em;
+  justify-content: end;
+  font-size: larger;
+}
+
+.detail-img{
+  margin: 2em;
+  margin-left: 0;
+}
+
+.sortmenu{
+  display: flex;
+  justify-content: flex-end;
+}
+
+hr{
+  margin-top: 2em;
+  margin-bottom: 2em;
 }

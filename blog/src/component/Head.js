@@ -7,13 +7,13 @@ export function Head() {
         <h2><Link to="/">H's PortFolio</Link></h2>
       </div>
       <ul className="header-nav">
-        <li className='nav'>
+        <li href="#Write" className='nav'>
           <Link to="/management">글 쓰기</Link>
         </li>
-        <li className='nav'>
+        <li href="#List" className='nav'>
           <Link to="/">글 목록</Link>
         </li>
-        <li className="nav">
+        <li href="#Guest" className="nav">
           방명록
         </li>
       </ul>
