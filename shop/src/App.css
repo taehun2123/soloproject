@@ -2,22 +2,27 @@
 
 .App {
   text-align: center;
-  padding: 3em;
-  padding-top: 1.5em;
+  margin: 3em;
+  margin-top: 1.5em;
 }
 
 /* ==== 리셋 구간 ==== */
 body{
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
   font-family: 'NanumSquare';
 }
-h1, h2, h3, h4, h5, h6, dt, dd{
-  font-size: inherit;
+h1, h2, h3 {
   font-weight: normal;
   margin: 0;
+  font-size: var(--font-size-md);
+}
+h4, h5, h6, dt, dd{
+  font-size: var(--font-size-smm);
+  font-weight: bold;
+  margin-bottom: 1em;
 }
 
 main{
@@ -48,10 +53,15 @@ a {
 
 hr {
   margin: 0;
+  margin-top: 2em;
+  margin-bottom: 2em;
   padding: 0;
   width: 100%;
 }
 
+button{
+  margin-bottom: 1em;
+}
 
 /* ==== 반복 함수 생성 ==== */
 :root {
@@ -91,6 +101,8 @@ header{
   margin-right: 2em;
   white-space: nowrap;
 }
+/* 헤더 끝 */
+/* 백그라운드 이미지 */
 .bg{
   display: flex;
   gap: 1em;
@@ -103,53 +115,55 @@ header{
   background-size: cover;
   background-position: center;
 }
-
+/* 백그라운드 이미지 끝 */
+/* 베스트 탑3 */
+.sortmenu{
+  display: flex;
+  justify-content: flex-end;
+}
 .container{
   margin-top: 1em;
 }
+.row{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 2em;
+}
+
 .col-md{
   border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
 }
-
-h1{
-  font-size: var(--font-size-md);
-  margin-bottom: 1em;
-}
-
-h4{
-  font-size: var(--font-size-smm);
-  font-weight: bold;
-  margin-bottom: 1em;
-}
-
-button{
-  margin-bottom: 1em;
-}
-
+/* 베스트 끝 */
+/* 상세페이지 CSS */
 .detail{
   width: 100%;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid gray;
 }
-
+.detail-m{
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  border-bottom: 1px solid gray;
+}
+.detail-img{
+  margin-left: 0;
+}
 .detail-text{
   margin: 3em 3em 3em;
   justify-content: end;
   font-size: larger;
 }
-
-.detail-img{
-  margin: 2em;
-  margin-left: 0;
-}
-
-.sortmenu{
-  display: flex;
-  justify-content: flex-end;
-}
-
-hr{
-  margin-top: 2em;
-  margin-bottom: 2em;
+.hurry-up{
+  background-color: antiquewhite;
+  padding: 1em;
+  justify-content: space-between;
+  border-radius: 20dvw;
 }
