@@ -19,7 +19,7 @@ h1, h2, h3 {
   margin: 0;
   font-size: var(--font-size-md);
 }
-h4, h5, h6, dt, dd{
+h4, h5, h6, dt, dd, th{
   font-size: var(--font-size-smm);
   font-weight: bold;
   margin-bottom: 1em;
@@ -29,7 +29,7 @@ main{
   margin: 0;
 }
 
-p {
+p, td {
   margin-top: 2em;
   font-size: var(--font-size-ssm);
 }

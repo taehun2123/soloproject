@@ -1,0 +1,31 @@
+.main{
+  display: flex;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: brown;
+  z-index: 999;
+  box-sizing: border-box;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  white-space: nowrap;
+  padding-left: 4em;
+}
+.title{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cart{
+  width: 3%;
+  display: flex;
+  justify-content: center;
+  padding-right: 2em;
+  cursor: pointer;
+}

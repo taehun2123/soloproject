@@ -14,7 +14,7 @@ export function Head() {
           <Link to="/">글 목록</Link>
         </li>
         <li href="#Guest" className="nav">
-          방명록
+          추후 개발예정
         </li>
       </ul>
     </header>

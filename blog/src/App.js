@@ -2,64 +2,105 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 import './App.css';
 import { Head } from './component/Head';
 import { Write } from './component/Write';
-import { useRef, useState} from 'react';
+import { useEffect, useRef, useState} from 'react';
 
 function App() {
   const [hlist, setHlist] = useState("");
   const [plist, setPlist] = useState("");
-  const [data, setData] = useState([{
-    title: "[고정 게시물] 공지사항",
-    text: "본 페이지는 사용자의 게시물을 저장하지 않으므로 자유롭게 감정을 표출하세요",
-    thumb : 0,
-    time : new Date(),
-  }]);
+  const [datafile, setDatafile] = useState([]);
   const navigate = useNavigate();
-  const idRef = useRef(1);
   const [postIndex, setPostIndex] = useState(null);
+  const idRef = useRef(0);
 
+  useEffect(()=>{
+    loadPost();
+  })
+  function loadPost(){
+    fetch("http://localhost:5050/post")
+    .then(res=>res.json())
+    .then(data=>
+      setDatafile(data)
+      )
+  }
 
-  function addPost() {
+  async function addPost() {
     if(hlist && plist !== ""){
-    const newData = {
-      id : idRef.current,
-      title: hlist,
-      text: plist,
-      thumb : 0,
-      time : new Date(),
+      const data = {
+        id : idRef.current,
+        title : hlist,
+        content : plist,
+        thumb : 0,
+        time : new Date(),
+      }
+      const loadData = await fetch(`http://localhost:5050/postInsert`,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      setHlist("");
+      setPlist("");
+      setPostIndex(null);
+      alert("성공적으로 게시물이 발행되었습니다.");
+      idRef.current += 1;
+      navigate("/");
+    } else {
+      alert("제목과 내용을 입력해주세요!"); 
+    }
+  }
+  async function recommend(index){ //id 값으로 따봉 올리는 방법
+    const updatedData = {
+      id: datafile[index].id, // 게시물 식별자 (예: 게시물의 고유 ID)
+      title: datafile[index].title,
+      content : datafile[index].content,
+      thumb: datafile[index].thumb+=1
     };
-    setData([...data, newData]);
-    setHlist("");
-    setPlist("");
-    setPostIndex(null);
-    alert("성공적으로 게시물이 발행되었습니다.");
-    navigate("/");
-    idRef.current += 1;
-  } else {
-    alert("제목과 내용을 입력해주세요!"); 
-  }
-  }
-  function recommend(id){ //id 값으로 따봉 올리는 방법
-    const temp = [...data];
-    const index = temp.findIndex((item)=>(item.id===id));
+    const loadData = await fetch(`http://localhost:5050/postUpdate`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    })
+    const temp = [...datafile];
     temp[index].thumb += 1;
-    setData(temp);
+    setDatafile(temp);
   }
+  
   // function removePost(id){
   //   const updatedData = data.filter(item => item.id !== id);
   //   setData(updatedData);
   // }
 
   function selectedPost(index){  //index 값을 이용하여 수정 게시글 변경하는 방법
+    if (index !== 0){
     navigate("/management");
-    setHlist(data[index].title);
-    setPlist(data[index].text);
+    setHlist(datafile[index].title);
+    setPlist(datafile[index].content);
     setPostIndex(index);
+  } else {
+    alert("관리자의 게시물은 수정할 수 없습니다.")
+  }
   }
 
-  function editPost(){
+  async function editPost(){
     if(hlist && plist !== ""){
-      data[postIndex].title = hlist;
-      data[postIndex].text = plist;
+      const updatedData = {
+        id: datafile[postIndex].id, // 게시물 식별자 (예: 게시물의 고유 ID)
+        title: hlist,
+        content: plist,
+        thumb: datafile[postIndex].thumb,
+      };
+      const loadData = await fetch(`http://localhost:5050/postUpdate`,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      })
+      datafile[postIndex].title = hlist;
+      datafile[postIndex].content = plist;
       setHlist("");
       setPlist("");
       setPostIndex(null);
@@ -78,22 +119,22 @@ function App() {
             <Route path="/" element={
               <article>
                 <ul className="list">
-                  {data.map((item, index) => (
+                  {datafile.map((item, index) => (
                     <li className="list-text" key={index}>
                       <div className="list-hb">
                         <h2>{item.title}</h2>
-                        <button onClick={()=>{
-                          let copy = [...data];
+                        {/* <button onClick={()=>{
+                          let copy = [...datafile];
                           copy.splice(index,1);
-                          setData(copy);
-                        }}>X</button>
+                          setDatafile(copy);
+                        }}>X</button> */}
                         <button onClick={()=>{selectedPost(index)}}>
                           Edit</button>
                         <button onClick={()=>{
-                          recommend(item.id);
+                          recommend(index);
                         }}>👍 {item.thumb}</button>
                       </div>
-                      <p>{item.text}</p>
+                      <p>{item.content}</p>
                       <p>발행일 : {item.time.toLocaleString('ko-KR')}</p>
                     </li>
                   ))}

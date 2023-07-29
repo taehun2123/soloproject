@@ -10,8 +10,8 @@ export function Header(){
           <Nav className="me-auto">
             <Nav.Link href="" onClick={()=>{navigate('/')}}>Home</Nav.Link>
             <Nav.Link href="" onClick={()=>{navigate('/about')}}>About</Nav.Link>
-            <Nav.Link href="" onClick={()=>{navigate('/product')}}>Product</Nav.Link>
-            <Nav.Link href="">Cart</Nav.Link>
+            <Nav.Link href="" onClick={()=>{navigate('/product')}}>Products</Nav.Link>
+            <Nav.Link href="" onClick={()=>{navigate('/cart')}}>Cart</Nav.Link>
         </Nav>
       </header>
     </Navbar>

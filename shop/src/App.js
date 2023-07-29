@@ -5,13 +5,15 @@ import { Product } from './component/Product';
 import { About } from './component/About';
 import { Event } from './component/Event';
 import { Detail } from './component/Detail'
+import { Cart } from './component/Cart';
 import { useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import { BrowserRouter as Router, Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 
 function App() {
   const [List,setList] = useState(data);
-  const [clickedGet, setclickedGet] = useState(0);
+  const [clickedGet, setclickedGet] = useState(2);
+
   function sortList() {
     const temp = [...List];
     temp.sort((a,b) => a.title.localeCompare(b.title));
@@ -19,26 +21,13 @@ function App() {
   }
 
   function Getpost(){
-    if(clickedGet==0){
-    fetch("https://codingapple1.github.io/shop/data2.json")
+    fetch(`https://codingapple1.github.io/shop/data${clickedGet}.json`)
     .then(res=>res.json())
     .then(data=>{
       const temp = [...List, ...data];
       setList(temp)
       setclickedGet(clickedGet+1);
     })
-    } else if(clickedGet==1){
-      fetch("https://codingapple1.github.io/shop/data3.json")
-      .then(res=>res.json())
-      .then(data=>{
-        const temp = [...List, ...data];
-        setList(temp)
-        setclickedGet(clickedGet+1);
-    })
-    } else {
-      alert("상품의 끝 입니다.")
-    }
-
   }
   return (
     <div className="App">
@@ -66,9 +55,10 @@ function App() {
               ))}
             </div>
           </div>
-          <button onClick={()=>{
-            Getpost()
-          }}>더보기</button>
+            <br/>
+            {clickedGet<=3 ? <Button variant="danger" size='sm' onClick={()=>{Getpost()}}>
+            더보기
+            </Button> : null}
           </>
         }/>
         <Route path='/product' element={
@@ -92,6 +82,9 @@ function App() {
             <Detail list={List}/>
           </div>
         </div>
+        }/>
+        <Route path='/cart' element={
+          <Cart/>
         }/>
       </Routes>
     </div>
