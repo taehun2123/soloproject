@@ -3,7 +3,8 @@ import {Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import { Header } from './component/Header'
 import { User } from './component/User';
 import { Admin } from './component/Admin';
-import { Cart } from './component/Cart';
+import { Tab } from './component/Tab';
+import { Modal } from './component/Modal';
 import { useEffect, useRef, useState } from 'react';
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
     })
     setShowcart(true);
   }
-
+// 카트에 있는 선택 품목 삭제하기
   async function deleteCart(id){
     const loadData = await fetch(`http://localhost:8080/cartDelete/${id}`,{
       method: 'DELETE',
@@ -145,45 +146,31 @@ async function editList(){
     } else {
     alert("제목과 내용을 입력해주세요!"); 
   }}
-// 탭 부분
-  const [activeTab, setActiveTab] = useState(1); // 현재 활성화된 탭을 추적하는 상태
-  const handleTabClick = (tabIndex) => {
-    setActiveTab(tabIndex);
-    navigate(`/user/${tabIndex}`);
-  };
-
-  const tabItems = [
-    { id: 1, title: '커피' },
-    { id: 2, title: '아이스크림' },
-    { id: 3, title: '디저트' },
-  ];
   return (
     <div className="App">
-      <Header navigate={navigate} setShowcart={setShowcart} showCart={showCart}/>
-      {/* 탭부분 */}
-      <div className="tab-nav">
-        {tabItems.map((tab) => (
-          <div
-            key={tab.id}
-            className={`tab-item ${activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => {handleTabClick(tab.id)}}
-          >
-            {tab.title}
-          </div>
-        ))}
-      </div>
-      {/* 탭 끝 */}
       <Routes>
+      {/* 관리자 페이지 */}
+      <Route path="/admin" element={
+        <>
+          <Header navigate={navigate} setShowcart={setShowcart} showCart={showCart}/>
+          <Admin setAdmin={setAdmin} admin={admin} data={data} addName={addName} addPrice={addPrice} addContent={addContent} setAddName={setAddName} setAddContent={setAddContent} setAddPrice={setAddPrice} addList={addList} editList={editList} navigate={navigate}/>
+        </>
+        }/>      
         {/* 지정된 path외 모든 페이지 */}
         <Route path="*" element={
-          <div><p>[404]준비중인 페이지</p></div>
-        }/>
-        {/* 관리자 페이지 */}
-        <Route path="/admin" element={
-          <Admin setAdmin={setAdmin} admin={admin} data={data} addName={addName} addPrice={addPrice} addContent={addContent} setAddName={setAddName} setAddContent={setAddContent} setAddPrice={setAddPrice} addList={addList} editList={editList}/>
+          <>
+          <Header navigate={navigate} setShowcart={setShowcart} showCart={showCart}/>
+            <Tab navigate={navigate}/>
+              <div><p>[404]준비중인 페이지</p></div>
+          </>
         }/>
         {/* 유저 페이지 */}
-        <Route path="/user" element={<><p>메뉴 선택 후 주문 버튼을 누르세요</p><Outlet></Outlet></>}>
+        <Route path="/user" element={
+        <>
+          <Header navigate={navigate} setShowcart={setShowcart} showCart={showCart}/>
+            <Tab navigate={navigate}/>
+              <p>메뉴 선택 후 주문 버튼을 누르세요</p><Outlet></Outlet>
+        </>}>
           {/* 유저/1 페이지 : 커피 */}
           <Route path="1" element={
             <div className='container'>
@@ -203,39 +190,9 @@ async function editList(){
             <div>3</div>
           }/>
         </Route>
-        {/* 카트(장바구니) 페이지
-        <Route path='/cart' element={
-        <div className="modal">
-          <div className='carttitle'>
-            <div className='carttitle-list'>
-              <h3>카트 목록</h3>
-            </div>
-          </div>
-          <ul className='modal-container'>
-          {cartList.map((item, index)=>(
-            <Cart id={item.id} name={item.name} content={item.content} price={item.price} index={index} cnt={item.cnt} deleteCart={deleteCart}/>
-          ))}
-        </ul>
-        </div>
-        }/> */}
       </Routes>
       {/* 선택하기 버튼 누를시 장바구니 모달 창 띄우기 */}
-      {showCart === true ?
-      <div className="modal">
-        <div className='carttitle'>
-          <div className='carttitle-list'>
-            <h3>카트 목록</h3>
-          </div>
-          <div className='carttitle-x'>
-            <button className='button' onClick={()=>{setShowcart(false)}}>X</button>
-          </div>
-        </div>  
-        <ul className='modal-container'>
-          {cartList.map((item, index)=>(
-            <Cart cartList={cartList} id={item.id} name={item.name} content={item.content} price={item.price} index={index} deleteCart={deleteCart} cnt={item.cnt}/>
-          ))}
-        </ul>
-      </div> : null}
+      {showCart === true ? <Modal cartList={cartList} setShowcart={setShowcart} deleteCart={deleteCart}/> : null}
     </div>
   );
 }

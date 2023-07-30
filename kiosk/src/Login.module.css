@@ -1,0 +1,52 @@
+.background{
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin-top: -2.5em;
+  width: 100%;
+  height: 100vh;
+  background-color: brown;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  overflow-y: hidden;
+  content: '';
+}
+
+
+.loginForm{
+  background-color: rgb(185, 87, 87);
+  padding: 7em;
+  width: 10em;
+  height: 10em;
+  border-radius: 1.5em;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.button{
+  font-size: 1em;
+  font-weight: bold;
+  padding: 10px 20px;
+  color: white;
+  background-color: var(--background-color-set);
+  border-radius: 5dvw;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1em;
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+}
+.button:hover {
+  background-color: var(--background-color-active)
+}
+
+.button:active {
+  background-color: var(--background-color-clicked)
+}

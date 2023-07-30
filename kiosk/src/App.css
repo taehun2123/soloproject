@@ -2,9 +2,11 @@
 @import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
 
 .App{
+  width: 100%;
+  height: 100%;
   text-align: center;
-  margin: 3em;
-  margin-top: 3em;
+  padding-top: 2.5em;
+  font-family: 'NanumSquare';
 }
 body{
   width: 100%;
@@ -82,14 +84,6 @@ hr {
   gap: 2em;
 }
 
-/* 기본 탭 네비게이션 스타일 */
-.tab-nav {
-  display: flex;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
 /* 탭 아이템 스타일 */
 .tab-item {
   width: 100%;
@@ -109,6 +103,7 @@ hr {
 .tab-item.active {
   background-color: #ddd;
 }
+
 /* 버튼 */
 .button{
   font-size: 1em;
@@ -132,9 +127,6 @@ hr {
   background-color: var(--background-color-clicked)
 }
 
-.adminpage{
-  margin-top: 1em;
-}
 /* 모달 */
 .modal{
   width: 100%;
@@ -165,7 +157,7 @@ hr {
 }
 .carttitle-list{
   padding-left: 1em;
-  width: 100%;
+  width: 70%;
   text-align: start;
 }
 

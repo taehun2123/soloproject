@@ -1,0 +1,7 @@
+/* 기본 탭 네비게이션 스타일 */
+.tabnav {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
