@@ -14,17 +14,19 @@ function App() {
   const [addName, setAddName] = useState("");
   const [addContent, setAddContent] = useState("");
   const [addPrice, setAddPrice] = useState("");
+  // const [filename, setFilename] = useState("");
 
   const [admin,setAdmin] = useState(0);
   const [eIndex, setIndex] = useState(null);
   const [showCart, setShowcart] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const navigate = useNavigate();
   // 상품과 카트목록 렌더링마다 불러오기
   useEffect(()=>{
     loadList();
     getCart();
-  })
+  }, [])
     function loadList(){
     fetch("http://localhost:8080/list")
     .then(res=>res.json())
@@ -53,6 +55,7 @@ function App() {
       body: JSON.stringify(selectedData),
     })
     setShowcart(true);
+    getCart();
   }
 // 카트에 있는 선택 품목 삭제하기
   async function deleteCart(id){
@@ -60,6 +63,7 @@ function App() {
       method: 'DELETE',
     });
     alert("장바구니에서 품목이 삭제되었습니다")
+    getCart();
   }
 
 // 관리자용
@@ -67,6 +71,7 @@ function selectedAdminList(index){  //index 값을 이용하여 수정 게시글
   if (admin === 1){
     navigate("/admin");
     setAdmin(2);
+    setSelectedImage(data[index].image);
     setAddName(data[index].name);
     setAddContent(data[index].content);
     setAddPrice(data[index].price);
@@ -77,11 +82,12 @@ function selectedAdminList(index){  //index 값을 이용하여 수정 게시글
 }
 
 // 상품 수정
-async function editList(){
+async function editList(imageUrl){
   if(addName && addContent && addPrice !== ""){
     if(admin === 2){
     const updatedData = {
       id: data[eIndex].id, // 게시물 식별자 (예: 게시물의 고유 ID)
+      image : imageUrl,
       name: addName,
       content: addContent,
       price: addPrice,
@@ -102,6 +108,7 @@ async function editList(){
     setIndex(null);
     alert("성공적으로 게시물이 수정되었습니다.");
     setAdmin(1);
+    loadList();
     navigate("/user/1");
   } else {
     alert("관리자 권한이 없습니다.");
@@ -122,11 +129,32 @@ async function editList(){
     alert("관리자 권한만 이용이 가능합니다")
   }
 }
+  //상품 이미지 업로드
+  function handleUpload(){
+    const formData = new FormData();
+    formData.append('image', selectedImage);
+
+    fetch('http://localhost:8080/images', {
+      method : 'POST',
+      body : formData
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("이미지 업로드 성공 :", data.imageUrl);
+        setSelectedImage(null);
+        if(admin==2){
+        editList(data.imageUrl);
+      } else {
+        addList(data.imageUrl);
+      }
+      })
+  }
 
   //상품 추가
-  async function addList(){
+  async function addList(imageUrl){
     if(addName && addContent && addPrice !== ""){
     const addData = {
+      image: imageUrl,
       name : addName,
       content : addContent,
       price : addPrice,
@@ -142,6 +170,7 @@ async function editList(){
     setAddContent("");
     setAddPrice("");
     alert("성공적으로 메뉴가 추가되었습니다.");
+    loadList();
     navigate("/user/1");
     } else {
     alert("제목과 내용을 입력해주세요!"); 
@@ -153,7 +182,7 @@ async function editList(){
       <Route path="/admin" element={
         <>
           <Header navigate={navigate} setShowcart={setShowcart} showCart={showCart}/>
-          <Admin setAdmin={setAdmin} admin={admin} data={data} addName={addName} addPrice={addPrice} addContent={addContent} setAddName={setAddName} setAddContent={setAddContent} setAddPrice={setAddPrice} addList={addList} editList={editList} navigate={navigate}/>
+          <Admin handleUpload={handleUpload} selectedImage={selectedImage} setSelectedImage={setSelectedImage} setAdmin={setAdmin} admin={admin} data={data} addName={addName} addPrice={addPrice} addContent={addContent} setAddName={setAddName} setAddContent={setAddContent} setAddPrice={setAddPrice} addList={addList} editList={editList} navigate={navigate}/>
         </>
         }/>      
         {/* 지정된 path외 모든 페이지 */}
@@ -176,7 +205,7 @@ async function editList(){
             <div className='container'>
               <div className='row'>
                 {data.map((item, index) => (
-                  <User name={item.name} id={item.id} index={index} price={item.price} content={item.content} admin={admin} selectList={selectList} selectedAdminList={selectedAdminList} deleteList={deleteList}/>
+                  <User image={item.image} name={item.name} id={item.id} index={index} price={item.price} content={item.content} admin={admin} selectList={selectList} selectedAdminList={selectedAdminList} deleteList={deleteList}/>
                 ))}
               </div>
             </div>

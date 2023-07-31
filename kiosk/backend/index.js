@@ -10,10 +10,27 @@ const filePath = 'data.json'
 const cartPath = 'cart.json'
 const { v4: uuidv4 } = require('uuid');
 const randomUUID = uuidv4();
-
+const multer = require('multer'); // 파일 업로드를 처리하기 위한 라이브러리
 app.use(cors());
 app.use(express.json());
+app.use('/images', express.static('images'))
 app.use(bodyParser.json());
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './images/'); //이미지를 저장할 폴더
+  }, 
+  filename: function (req, file, cb){
+    cb(null, file.originalname); // 파일 명
+  }
+});
+const upload = multer({storage});
+
+app.post('/images', upload.single('image'), (req,res) => {
+  res.json({ imageUrl : req.file.path })
+});
+
 app.get("/", (req,res)=> {
   res.send({msg: "Hello world"})
 })
@@ -27,6 +44,7 @@ app.post("/listInsert", (req,res)=>{
     const newItem = 
   {
     id : randomUUID,
+    image: newData.image,
     name : newData.name,
     content : newData.content,
     price : newData.price,
@@ -44,23 +62,25 @@ app.post("/listInsert", (req,res)=>{
   })
 
 app.post("/listEdit", (req,res)=>{
-  const FrontData = req.body;
-  fs.readFile(filePath, 'utf8', (err, data) => {
+  const FrontData = req.body; //바디 값 불러오기
+  fs.readFile(filePath, 'utf8', (err, data) => { //이전 데이터 파일 불러오기
     if(err){
       console.error("파일 읽기 중 에러 :", err);
       res.status(500).json({msg: '파일 읽기 에러'})
     } else {
       try {
-        const Lists = JSON.parse(data);
+        const jsonlists = JSON.parse(data); //JSON으로 파싱한 데이터
 
-        const updatedListIndex = Lists.findIndex((list) => list.id === FrontData.id);
+        const updatedListIndex = jsonlists.findIndex((list) => list.id === FrontData.id);
         if (updatedListIndex!==-1) {
-          Lists[updatedListIndex].name = FrontData.name;
-          Lists[updatedListIndex].content = FrontData.content;
-          Lists[updatedListIndex].price = FrontData.price;
-          const updatedListData = JSON.stringify(Lists);
+          jsonlists[updatedListIndex].image = FrontData.image;
+          jsonlists[updatedListIndex].name = FrontData.name;
+          jsonlists[updatedListIndex].content = FrontData.content;
+          jsonlists[updatedListIndex].price = FrontData.price;
+          const updatedListData = JSON.stringify(jsonlists);
 
-          fs.writeFile(filePath, updatedListData, 'utf8', (err) => {
+          fs.writeFile(filePath, updatedListData, 'utf8', (err) => { 
+            //수정된 데이터를 쓰기
             if(err) {
               console.error("파일 쓰기 중 에러", err);
               res.status(500).json({ msg: '파일 쓰기 에러'});
@@ -137,6 +157,7 @@ app.post("/listEdit", (req,res)=>{
           const newItem = 
           {
             id : findItem.id,
+            image : findItem.image,
             name : findItem.name,
             content : findItem.content,
             price : findItem.price,

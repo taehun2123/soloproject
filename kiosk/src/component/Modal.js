@@ -12,7 +12,7 @@ export function Modal(props){
       </div>  
       <ul className='modal-container'>
         {props.cartList.map((item, index)=>(
-          <Cart cartList={props.cartList} id={item.id} name={item.name} content={item.content} price={item.price} index={index} deleteCart={props.deleteCart} cnt={item.cnt}/>
+          <Cart cartList={props.cartList} image={item.image} id={item.id} name={item.name} content={item.content} price={item.price} index={index} deleteCart={props.deleteCart} cnt={item.cnt}/>
         ))}
       </ul>
     </div> 
