@@ -2,7 +2,11 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 import './App.css';
 import { Head } from './component/Head';
 import { Write } from './component/Write';
-import { useEffect, useRef, useState} from 'react';
+import { List } from './component/List'
+import { Login } from './component/Login';
+import { Signup } from './component/Signup';
+import { Logout } from './component/Logout';
+import { useEffect, useState} from 'react';
 
 function App() {
   const [hlist, setHlist] = useState("");
@@ -10,7 +14,8 @@ function App() {
   const [datafile, setDatafile] = useState([]);
   const navigate = useNavigate();
   const [postIndex, setPostIndex] = useState(null);
-  const idRef = useRef(0);
+  const [inLogin, setInLogin] = useState(false);
+  const storedUser = JSON.parse(localStorage.getItem('user'));
 
   useEffect(()=>{
     loadPost();
@@ -26,11 +31,11 @@ function App() {
   async function addPost() {
     if(hlist && plist !== ""){
       const data = {
-        id : idRef.current,
         title : hlist,
         content : plist,
         thumb : 0,
         time : new Date(),
+        log: storedUser.id,
       }
       const loadData = await fetch(`http://localhost:5050/postInsert`,{
         method: "POST",
@@ -43,7 +48,6 @@ function App() {
       setPlist("");
       setPostIndex(null);
       alert("성공적으로 게시물이 발행되었습니다.");
-      idRef.current += 1;
       navigate("/");
     } else {
       alert("제목과 내용을 입력해주세요!"); 
@@ -54,33 +58,34 @@ function App() {
       id: datafile[index].id, // 게시물 식별자 (예: 게시물의 고유 ID)
       title: datafile[index].title,
       content : datafile[index].content,
-      thumb: datafile[index].thumb+=1
+      thumb: datafile[index].thumb+=1,
     };
-    const loadData = await fetch(`http://localhost:5050/postUpdate`,{
+    const loadData = await fetch(`http://localhost:5050/postthumb`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedData),
     })
-    const temp = [...datafile];
-    temp[index].thumb += 1;
-    setDatafile(temp);
   }
   
-  // function removePost(id){
-  //   const updatedData = data.filter(item => item.id !== id);
-  //   setData(updatedData);
-  // }
+  async function deletePost(id){{
+    const loadData = await fetch(`http://localhost:5050/postDelete/${id}`,{
+      method: 'DELETE',
+    });
+    const result = await loadData.json();
+    alert(result.message);
+  }
+}
 
   function selectedPost(index){  //index 값을 이용하여 수정 게시글 변경하는 방법
-    if (index !== 0){
-    navigate("/management");
+    if (datafile[index].log==storedUser.id){
+    navigate("/write");
     setHlist(datafile[index].title);
     setPlist(datafile[index].content);
     setPostIndex(index);
   } else {
-    alert("관리자의 게시물은 수정할 수 없습니다.")
+    alert("본인의 게시글만 수정할 수 있습니다.")
   }
   }
 
@@ -91,6 +96,7 @@ function App() {
         title: hlist,
         content: plist,
         thumb: datafile[postIndex].thumb,
+        log: storedUser.id,
       };
       const loadData = await fetch(`http://localhost:5050/postUpdate`,{
         method: "POST",
@@ -99,13 +105,12 @@ function App() {
         },
         body: JSON.stringify(updatedData),
       })
-      datafile[postIndex].title = hlist;
-      datafile[postIndex].content = plist;
+      const result = await loadData.json();
+      alert(result.message);
+      navigate("/");
       setHlist("");
       setPlist("");
       setPostIndex(null);
-      alert("성공적으로 게시물이 수정되었습니다.");
-      navigate("/");
     } else {
       alert("제목과 내용을 작성해주세요!"); 
     }
@@ -113,35 +118,22 @@ function App() {
 
   return (
       <div className="App">
-        <Head/>
+        <Head setInLogin={setInLogin} inLogin={inLogin}/>
         <main>
           <Routes>
             <Route path="/" element={
-              <article>
-                <ul className="list">
-                  {datafile.map((item, index) => (
-                    <li className="list-text" key={index}>
-                      <div className="list-hb">
-                        <h2>{item.title}</h2>
-                        {/* <button onClick={()=>{
-                          let copy = [...datafile];
-                          copy.splice(index,1);
-                          setDatafile(copy);
-                        }}>X</button> */}
-                        <button onClick={()=>{selectedPost(index)}}>
-                          Edit</button>
-                        <button onClick={()=>{
-                          recommend(index);
-                        }}>👍 {item.thumb}</button>
-                      </div>
-                      <p>{item.content}</p>
-                      <p>발행일 : {item.time.toLocaleString('ko-KR')}</p>
-                    </li>
-                  ))}
-                </ul>
-              </article>
+              <List datafile={datafile} selectedPost={selectedPost} recommend={recommend} navigate={navigate} inLogin={inLogin} deletePost={deletePost}/>
             } />
-            <Route path='/management' element={<Write setHlist={setHlist} setPlist={setPlist} addPost={addPost} hlist={hlist} plist={plist} postIndex={postIndex} editPost={editPost}/>} />
+              <Route path='/write' element={<Write setHlist={setHlist} setPlist={setPlist} addPost={addPost} hlist={hlist} plist={plist} postIndex={postIndex} editPost={editPost}/>} />
+              <Route path='/login' element={
+                <Login navigate={navigate} inLogin={inLogin} setInLogin={setInLogin}/>
+              }/>
+              <Route path='/signup' element={
+                <Signup setInLogin={setInLogin} navigate={navigate}/>
+              }/>
+              <Route path='/logout' element={
+                <Logout setInLogin={setInLogin} navigate={navigate}/>
+              }/>
           </Routes>
         </main>
       </div>

@@ -1,0 +1,26 @@
+.list {
+  width: 70dvw;
+  display: flex;
+  margin-bottom: 2em;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.list_text{
+  display: flex;
+  width: 70dvw;
+  border-bottom: 1px solid gray;
+  flex-direction: column;
+  margin-top: 2em;
+  text-align: start;
+}
+
+.list_hb{
+  display: flex;
+  gap: 1em;
+}
+
+.list_menu{
+  display: flex;
+  justify-content: space-between;
+}

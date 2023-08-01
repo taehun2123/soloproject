@@ -1,21 +1,55 @@
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import {App} from '../App'
-export function Head() {
+import { useState } from 'react';
+import styles from "../Head.module.css"
+export function Head(props) {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(1); // 현재 활성화된 탭을 추적하는 상태
+  const handleTabClick = (tabIndex) => {
+    setActiveTab(tabIndex);
+    if(props.inLogin===false){
+      navigate(`${tabItems[tabIndex-1].goto}`)
+    } else {
+      navigate(`${tabLoginItems[tabIndex-1].goto}`)
+    }
+  };
+
+  const tabItems =
+    [
+      { id: 1, title: '게시판', goto : "/" },
+      { id: 2, title: '추후 예정', goto : "/"},
+      { id: 3, title: '로그인', goto : "/login"}
+    ]
+  const tabLoginItems=
+  [
+    { id: 1, title: '게시판', goto : "/" },
+    { id: 2, title: '추후 예정', goto : "/"},
+    { id: 3, title: '로그아웃', goto : "/logout"}
+  ]
   return (
-    <header className="header">
-      <div className='title'>
-        <h2><Link to="/">H's PortFolio</Link></h2>
+    <header className={styles.header}>
+      <div className={styles.title}>
+        <h2>H's PortFolio</h2>
       </div>
-      <ul className="header-nav">
-        <li href="#Write" className='nav'>
-          <Link to="/management">글 쓰기</Link>
-        </li>
-        <li href="#List" className='nav'>
-          <Link to="/">글 목록</Link>
-        </li>
-        <li href="#Guest" className="nav">
-          추후 개발예정
-        </li>
+      <ul className={styles.header_nav}>
+      {props.inLogin===false ? tabItems.map((item) => (
+          <div
+            key={item.id}
+            className={`nav ${activeTab === item.id ? 'active' : ''}`}
+            onClick={() => {handleTabClick(item.id)}}
+          >
+            {item.title}
+          </div>
+        ))
+      : tabLoginItems.map((item) => (
+        <div
+          key={item.id}
+          className={`nav ${activeTab === item.id ? 'active' : ''}`}
+          onClick={() => {handleTabClick(item.id)}}
+        >
+          {item.title}
+        </div>
+      ))}
       </ul>
     </header>
   );

@@ -12,20 +12,27 @@ body{
   margin: 0;
   font-family: 'NanumSquare';
 }
-h1, h2, h3, h4, h5, h6, dt, dd{
-  font-size: inherit;
+h1, h2, h3{
+  font-size: var(--font-size-md);
+  font-weight: normal;
+  margin: 0;
+}
+
+h4, h5, h6, dt, dd{
+  font-size: var(--font-size-sm);
   font-weight: normal;
   margin: 0;
 }
 
 main{
-  margin: 0;
+  color: black;
+  margin-top: 5em;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-content: center;
 }
-
-p {
-  margin-top: 2em;
-}
-
 strong, em {
   font-weight: inherit;
   font-style: normal;
@@ -49,6 +56,22 @@ hr {
   width: 100%;
 }
 
+button{
+  background-color: black;
+  color: white;
+  border-radius: 10dvw;
+  cursor: pointer;
+}
+
+p{
+  color: gray;
+  margin-top: 2em;
+  font-size: var(--font-size-ssm);
+}
+
+form{
+  text-align: left;
+}
 
 /* ==== 반복 함수 생성 ==== */
 :root {
@@ -57,94 +80,25 @@ hr {
   --font-size-sm: clamp(1rem, 1.2vw, 2rem);
   --font-size-ssm: clamp(0.5em, 1vw, 1.5em);
 }
-
-
-/* ==== 헤더 CSS ==== */
-header{
-  display: flex;
-  color: white;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  background-color: black;
-  z-index: 999;
-  box-sizing: border-box;
-  position: fixed;
-  align-items: center;
-  align-content: center;
-}
-
-.title{
-  margin-left: 2em;
-  white-space: nowrap;
-}
-
-.header-nav{
-  display: inline-flex;
-  margin: var(--body-margin);
-  flex-grow: 1;
-  justify-content: flex-end;
-  align-items: center;
-  align-content: center;
-  gap: 1.5em;
-  margin-right: 2em;
-  white-space: nowrap;
-}
-
-main{
-  color: black;
-  margin-top: 5em;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-content: center;
-}
-
-
-.list {
-  width: 70dvw;
-  display: flex;
-  margin-bottom: 2em;
-  justify-content: flex-start;
-  flex-direction: column;
-}
-
-.list-text{
-  display: flex;
-  width: 70dvw;
-  border-bottom: 1px solid gray;
-  flex-direction: column;
-  margin-top: 2em;
-  text-align: start;
-}
-
-.list-hb{
-  display: flex;
-  gap: 1em;
-}
-
-button{
-  background-color: black;
-  color: white;
-  border-radius: 10dvw;
-}
-
-p{
-  color: gray;
-  font-size: var(--font-size-ssm);
-}
-
+/* 상단 메뉴바 CSS */
 .nav{
   color: gray;
+  cursor: pointer;
 }
 
 .nav:hover{
   color: gainsboro;
+  cursor: pointer;
   border-bottom: 3px solid ghostwhite;
+  transition: border-bottom 0.3s ease;
 }
 
 .nav:visited{
+  color : white;
+  cursor: pointer;
+}
+
+.nav.active{
   color: white;
+  border-bottom: 3px solid ghostwhite;
 }

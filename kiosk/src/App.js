@@ -26,7 +26,7 @@ function App() {
   useEffect(()=>{
     loadList();
     getCart();
-  }, [])
+  })
     function loadList(){
     fetch("http://localhost:8080/list")
     .then(res=>res.json())
@@ -170,7 +170,6 @@ async function editList(imageUrl){
     setAddContent("");
     setAddPrice("");
     alert("성공적으로 메뉴가 추가되었습니다.");
-    loadList();
     navigate("/user/1");
     } else {
     alert("제목과 내용을 입력해주세요!"); 
