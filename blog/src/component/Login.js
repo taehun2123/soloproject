@@ -17,7 +17,7 @@ export function Login(props){
       id : loginId,
       pw : loginPw,
     }
-      const chainLogin = await fetch("http://localhost:5050/login", {
+      const chainLogin = await fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/login", {
         method : 'POST',
         headers : {
           "Content-Type": "application/json",

@@ -19,9 +19,9 @@ function App() {
 
   useEffect(()=>{
     loadPost();
-  })
+}, [])
   function loadPost(){
-    fetch("http://localhost:5050/post")
+    fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/post")
     .then(res=>res.json())
     .then(data=>
       setDatafile(data)
@@ -37,7 +37,7 @@ function App() {
         time : new Date(),
         log: storedUser.id,
       }
-      const loadData = await fetch(`http://localhost:5050/postInsert`,{
+      const loadData = await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postInsert`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,32 +49,19 @@ function App() {
       setPostIndex(null);
       alert("성공적으로 게시물이 발행되었습니다.");
       navigate("/");
+      loadPost();
     } else {
       alert("제목과 내용을 입력해주세요!"); 
     }
   }
-  async function recommend(index){ //id 값으로 따봉 올리는 방법
-    const updatedData = {
-      id: datafile[index].id, // 게시물 식별자 (예: 게시물의 고유 ID)
-      title: datafile[index].title,
-      content : datafile[index].content,
-      thumb: datafile[index].thumb+=1,
-    };
-    const loadData = await fetch(`http://localhost:5050/postthumb`,{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    })
-  }
   
   async function deletePost(id){{
-    const loadData = await fetch(`http://localhost:5050/postDelete/${id}`,{
+    const loadData = await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postDelete/${id}`,{
       method: 'DELETE',
     });
     const result = await loadData.json();
     alert(result.message);
+    loadPost();
   }
 }
 
@@ -95,10 +82,9 @@ function App() {
         id: datafile[postIndex].id, // 게시물 식별자 (예: 게시물의 고유 ID)
         title: hlist,
         content: plist,
-        thumb: datafile[postIndex].thumb,
         log: storedUser.id,
       };
-      const loadData = await fetch(`http://localhost:5050/postUpdate`,{
+      const loadData = await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postUpdate`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -108,6 +94,7 @@ function App() {
       const result = await loadData.json();
       alert(result.message);
       navigate("/");
+      loadPost();
       setHlist("");
       setPlist("");
       setPostIndex(null);
@@ -122,7 +109,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={
-              <List datafile={datafile} selectedPost={selectedPost} recommend={recommend} navigate={navigate} inLogin={inLogin} deletePost={deletePost}/>
+              <List datafile={datafile} selectedPost={selectedPost} navigate={navigate} inLogin={inLogin} deletePost={deletePost}/>
             } />
               <Route path='/write' element={<Write setHlist={setHlist} setPlist={setPlist} addPost={addPost} hlist={hlist} plist={plist} postIndex={postIndex} editPost={editPost}/>} />
               <Route path='/login' element={

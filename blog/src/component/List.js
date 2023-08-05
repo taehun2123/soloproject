@@ -16,13 +16,10 @@ export function List(props) {
       <h2>LIST</h2>
       <button onClick={()=>{loginWrite()}}>글 작성</button>
     </div>
-    {props.datafile.map((item, index) => (
+    {props.datafile ? props.datafile.map((item, index) => (
       <li className={styles.list_text} key={index}>
         <div className={styles.list_hb}>
           <h4>{item.title}</h4>
-          <button onClick={()=>{
-            props.recommend(index);
-          }}>👍 {item.thumb}</button>
             {storedUser && item.log == storedUser.id 
             ? <><button onClick={()=>{
               props.selectedPost(index)
@@ -34,7 +31,8 @@ export function List(props) {
         <p>{item.content}</p>
         <p>발행일 : {item.time}</p>
       </li>
-    ))}
+    ))
+    : '로딩중'}
   </ul>
   </>
   )

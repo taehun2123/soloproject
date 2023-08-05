@@ -10,7 +10,7 @@ export function Signup(props){
     const checkedID = {
       id : signupId,
     }
-    const chainLogin = await fetch("http://localhost:5050/checkedid", {
+    const chainLogin = await fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/checkedid", {
       method : 'POST',
       headers : {
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export function Signup(props){
       name : signupName,
       birth: signupBirth,
     }
-    const chainLogin = await fetch("http://localhost:5050/signup", {
+    const chainLogin = await fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/signup", {
       method : 'POST',
       headers : {
         "Content-Type": "application/json",
