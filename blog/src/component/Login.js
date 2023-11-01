@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import styles from './Login.module.css';
 
 export function Login(props){
   const [loginId, setLoginId] = useState("");
   const [loginPw, setLoginPw] = useState("");
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedUser = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(()=>{
     if (storedUser) {
@@ -27,14 +28,12 @@ export function Login(props){
       const result = await chainLogin.json();
       alert(result.message);
       if(result.success) {
-      localStorage.setItem('user', JSON.stringify(newLogin));
+      sessionStorage.setItem('user', JSON.stringify(newLogin));
       props.setInLogin(true);
       props.navigate("/");
       setLoginId("");
       setLoginPw("");
-    } else {
-      alert("아이디와 비밀번호를 입력하세요!")
-    }
+      }
     }
   }
 
@@ -47,11 +46,41 @@ export function Login(props){
   }  
   return(
     <div>
-      <h2>로그인</h2>
-      <br/><hr/><br/>
-        <label><input onChange={(e)=>setLoginId(e.target.value)} placeholder='ID를 입력하세요'/></label><br/>
-        <label><input type='password' onChange={(e)=>setLoginPw(e.target.value)} placeholder='PW를 입력하세요'/></label><br/><br/>
-        <button onClick={()=>{loginSubmit()}}>Login</button>&nbsp;<button onClick={()=>{signupSubmit()}}>Sign up</button>
+      <div className={styles.loginContainer}>
+        <h2>로그인</h2>
+        <div className={styles.loginForm}>
+          <label>
+            <input 
+            className={styles.input} 
+            onChange={(e)=>setLoginId(e.target.value)}
+            placeholder='ID를 입력하세요'
+            />
+          </label>
+          <label>
+            <input
+            className={styles.input} 
+            type='password' 
+            onChange={(e)=>setLoginPw(e.target.value)} 
+            placeholder='PW를 입력하세요'
+            />
+          </label>
+        </div>
+        <div className={styles.buttonBox}>
+          <button 
+          className={styles.button}
+          onClick={()=>{loginSubmit()}}
+          >
+            Login
+          </button>
+          &nbsp;
+          <button 
+          className={styles.button}
+          onClick={()=>{signupSubmit()}}
+          >
+            Sign up
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

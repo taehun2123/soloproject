@@ -17,9 +17,11 @@ function App() {
   const [inLogin, setInLogin] = useState(false);
   const storedUser = JSON.parse(localStorage.getItem('user'));
 
+  // 게시글 목록 불러오기
   useEffect(()=>{
     loadPost();
 }, [])
+
   function loadPost(){
     fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/post")
     .then(res=>res.json())
@@ -34,10 +36,10 @@ function App() {
         title : hlist,
         content : plist,
         thumb : 0,
-        time : new Date(),
+        time : new Date().toLocaleString(),
         log: storedUser.id,
       }
-      const loadData = await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postInsert`,{
+      await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postInsert`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +51,7 @@ function App() {
       setPostIndex(null);
       alert("성공적으로 게시물이 발행되었습니다.");
       navigate("/");
-      loadPost();
+      window.location.reload(true);
     } else {
       alert("제목과 내용을 입력해주세요!"); 
     }
@@ -61,7 +63,7 @@ function App() {
     });
     const result = await loadData.json();
     alert(result.message);
-    loadPost();
+    window.location.reload(true);
   }
 }
 

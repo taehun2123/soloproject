@@ -1,8 +1,8 @@
-import styles from '../List.module.css'
+import styles from './List.module.css'
 export function List(props) {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   function loginWrite(){
-    if(props.inLogin===true){
+    if(props.inLogin){
       props.navigate("/write");
     } else {
       alert("로그인 후 이용 가능합니다.");
@@ -13,26 +13,41 @@ export function List(props) {
     <>
     <ul className={styles.list}>
     <div className={styles.list_menu}>
-      <h2>LIST</h2>
-      <button onClick={()=>{loginWrite()}}>글 작성</button>
+      <h2 style={{fontWeight: '650'}}>방명록 LIST</h2>
+      <button 
+      className={styles.button}
+      onClick={()=>{loginWrite()}}
+      >글 작성</button>
     </div>
-    {props.datafile ? props.datafile.map((item, index) => (
-      <li className={styles.list_text} key={index}>
+    {props.datafile 
+    ? props.datafile.map((item, index) => (
+      <div className={styles.list_text} key={index}>
         <div className={styles.list_hb}>
-          <h4>{item.title}</h4>
-            {storedUser && item.log == storedUser.id 
-            ? <><button onClick={()=>{
+          <h4 style={{display: "flex", textAlign: "center"}}>{item.title}</h4>
+            {(storedUser && (item.log == storedUser.id)) 
+            && <>
+              <button
+              className={styles.button} 
+              onClick={()=>{
               props.selectedPost(index)
-              }}>Edit</button>
-              <button onClick={()=>{props.deletePost(item.id)}}>X</button>
+              }}>
+                수정
+              </button>
+              <button
+              onClick={()=>{props.deletePost(item.id)}}
+              className={styles.button} 
+              style={{backgroundColor: "#CC0000", border:"none"}}
+              >
+                삭제
+              </button>
               </>
-              : null}
+              }
         </div>
         <p>{item.content}</p>
         <p>발행일 : {item.time}</p>
-      </li>
+      </div>
     ))
-    : '로딩중'}
+    : '로딩중 입니다..'}
   </ul>
   </>
   )

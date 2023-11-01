@@ -1,0 +1,47 @@
+.list {
+  width: 70dvw;
+  display: flex;
+  margin-bottom: 2em;
+  justify-content: flex-start;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 1em;
+}
+
+.list_text{
+  display: flex;
+  border-bottom: 1px solid gray;
+  flex-direction: column;
+  margin-top: 2em;
+  text-align: start;
+}
+
+.list_text:last-child{
+  border-bottom: none;
+}
+
+.list_hb{
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.list_menu{
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  border-bottom: 3px solid lightgray;
+}
+
+.button{
+  background-color: black;
+  border: none;
+  color: white;
+  border-radius: 3em;
+  cursor: pointer;
+  padding: 0.5em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  font-weight: 650;
+}

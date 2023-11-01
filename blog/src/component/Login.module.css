@@ -1,0 +1,39 @@
+
+.loginContainer{
+  padding: 5em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2em;
+}
+
+.input{
+  width: 15em;
+  height: 2em;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-size: 1.1em;
+  border-radius: 3em;
+  border: 1.5px solid lightgray;
+}
+
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.button{
+  background-color: black;
+  border: none;
+  color: white;
+  border-radius: 3em;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 0.5em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  font-weight: 600;
+}
