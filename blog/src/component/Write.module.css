@@ -1,0 +1,33 @@
+.button{
+  background-color: black;
+  border: none;
+  color: white;
+  border-radius: 3em;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 0.5em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  font-weight: 600;
+}
+
+.input{
+  width: 20em;
+  height: 1.5em;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-size: 1em;
+  border-radius: 1em;
+  border: 1.5px solid lightgray;
+}
+
+.textarea{
+  resize: none;
+  padding: 1.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-size: 1.1em;
+  border-radius: 1em;
+  border: 1.5px solid lightgray;
+}

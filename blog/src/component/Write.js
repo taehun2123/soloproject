@@ -1,4 +1,5 @@
 import { Head } from './Head'
+import styles from './Write.module.css'
 export function Write(props) {
   const { setHlist, setPlist, addPost, editPost, hlist, plist, postIndex } = props;
 
@@ -13,7 +14,7 @@ export function Write(props) {
             <h2>
               <label>
                 <input
-                  className='titlebox'
+                  className={styles.input}
                   value={hlist}
                   onChange={(e) => {
                     setHlist(e.target.value);
@@ -27,18 +28,22 @@ export function Write(props) {
             <p>
               <label>
                 <textarea
-                  className="box"
+                  className={styles.textarea}
                   value={plist}
                   onChange={(e) => {
                     setPlist(e.target.value);
                   }}
                   placeholder='내용'
-                  width={100}
+                  rows={10}
+                  cols={50}
                 />
               </label>
             </p>
           </div>
-          <button onClick={postIndex != null ? editPost : addPost}>{postIndex != null ? "수정하기" : "발행하기"}</button>
+          <button 
+          className={styles.button}
+          onClick={postIndex != null ? editPost : addPost}>{postIndex != null ? "수정하기" : "발행하기"}
+          </button>
         </article>
       </main>
     </>
