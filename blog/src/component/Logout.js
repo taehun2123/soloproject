@@ -1,9 +1,18 @@
 import styles from './Logout.module.css'
 export function Logout(props){
   const handleLogout = async () => {
-    sessionStorage.removeItem('user');
-    props.setInLogin(false);
-    props.navigate("/")
+    if(sessionStorage.getItem('user')){
+      const chainLogout = await fetch(`http://localhost:5050/logout`, {
+        method: 'GET',
+      })
+      const result = await chainLogout.json();
+      alert(result.message);
+      if(result.success) {
+        sessionStorage.removeItem('user');
+        props.setInLogin(false);
+        props.navigate("/")
+      }
+    }
   };
   return(
     <div>

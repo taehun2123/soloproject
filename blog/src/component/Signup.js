@@ -4,41 +4,41 @@ export function Signup(props){
   const [signupId, setSignupId] = useState("");
   const [signupPw, setSignupPw] = useState("");
   const [signupName, setSignupName] = useState("");
-  const [signupBirth, setSignupBirth] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
 
   async function checkId(){
-    const checkedID = {
-      id : signupId,
-    }
-    const chainLogin = await fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/checkedid", {
-      method : 'POST',
-      headers : {
-        "Content-Type": "application/json",
-      },
-      body : JSON.stringify(checkedID),
+    if(signupId && signupPw && signupName && signupEmail != ""){
+    const chainLogin = await fetch(`http://localhost:5050/signUp/${signupId}`, {
+      method : 'GET',
     })
     const result = await chainLogin.json();
     alert(result.message);
     if(result.success) {
       submitForm();
+    }
+  } else {
+    alert("미 작성된 가입란이 있습니다. 확인해주세요!");
   }
 }
   async function submitForm(){
     const newData = {
-      id : signupId,
-      pw : signupPw,
+      userId : signupId,
+      userPassword : signupPw,
       name : signupName,
-      birth: signupBirth,
+      email: signupEmail,
     }
-    await fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/signup", {
+    const submit = await fetch("http://localhost:5050/users", {
       method : 'POST',
       headers : {
         "Content-Type": "application/json",
       },
       body : JSON.stringify(newData),
     })
-    alert("회원가입이 완료되었습니다!");
-    props.navigate("/login");
+    const result = await submit.json();
+    alert(result.message);
+    if(result.success) {
+      props.navigate("/login");
+    }
 }
   return(
     <div>
@@ -70,10 +70,9 @@ export function Signup(props){
           <label>
             <input 
             className={styles.input}
-            maxLength={8} 
-            placeholder="생년월일 8자리" 
-            onChange={(e)=>{setSignupBirth(e.target.value)}} 
-            type='text'
+            placeholder="이메일" 
+            onChange={(e)=>{setSignupEmail(e.target.value)}} 
+            type='email'
             />
           </label>
         </div>

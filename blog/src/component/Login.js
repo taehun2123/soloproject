@@ -15,10 +15,10 @@ export function Login(props){
   async function loginSubmit(){
     if(loginId && loginPw !== null){
     const newLogin = {
-      id : loginId,
-      pw : loginPw,
+      userId : loginId,
+      userPassword : loginPw,
     }
-      const chainLogin = await fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/login", {
+      const chainLogin = await fetch("http://localhost:5050/login", {
         method : 'POST',
         headers : {
           "Content-Type": "application/json",

@@ -15,7 +15,7 @@ function App() {
   const navigate = useNavigate();
   const [postIndex, setPostIndex] = useState(null);
   const [inLogin, setInLogin] = useState(false);
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedUser = JSON.parse(sessionStorage.getItem('user'));
 
   // 게시글 목록 불러오기
   useEffect(()=>{
@@ -23,7 +23,7 @@ function App() {
 }, [])
 
   function loadPost(){
-    fetch("https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/post")
+    fetch("http://localhost:5050/post")
     .then(res=>res.json())
     .then(data=>
       setDatafile(data)
@@ -39,7 +39,7 @@ function App() {
         time : new Date().toLocaleString(),
         log: storedUser.id,
       }
-      await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postInsert`,{
+      await fetch(`http://localhost:5050/postInsert`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +58,7 @@ function App() {
   }
   
   async function deletePost(id){{
-    const loadData = await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postDelete/${id}`,{
+    const loadData = await fetch(`http://localhost:5050/postDelete/${id}`,{
       method: 'DELETE',
     });
     const result = await loadData.json();
@@ -86,7 +86,7 @@ function App() {
         content: plist,
         log: storedUser.id,
       };
-      const loadData = await fetch(`https://port-0-blogserver-3prof2llkshu36z.sel4.cloudtype.app/postUpdate`,{
+      const loadData = await fetch(`http://localhost:5050/postUpdate`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
