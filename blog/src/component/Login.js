@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import styles from './Login.module.css';
+import { useLoginStore } from '../store/store';
 
 export function Login(props){
+  const {inLogin, setInLogin} = useLoginStore();
   const [loginId, setLoginId] = useState("");
   const [loginPw, setLoginPw] = useState("");
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(()=>{
     if (storedUser) {
-      props.setInLogin(true);
+      setInLogin(true);
     }
   }, []);
 
@@ -29,7 +31,7 @@ export function Login(props){
       alert(result.message);
       if(result.success) {
       sessionStorage.setItem('user', JSON.stringify(newLogin));
-      props.setInLogin(true);
+      setInLogin(true);
       props.navigate("/");
       setLoginId("");
       setLoginPw("");
@@ -38,7 +40,7 @@ export function Login(props){
   }
 
   function signupSubmit(){
-    if(props.inLogin===false){
+    if(inLogin===false){
       props.navigate("/signup")
     } else {
       alert("이미 로그인 되어 있잖아요.")

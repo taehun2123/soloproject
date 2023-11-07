@@ -1,5 +1,7 @@
+import { useLoginStore } from '../store/store';
 import styles from './Logout.module.css'
 export function Logout(props){
+  const {setInLogin} = useLoginStore();
   const handleLogout = async () => {
     if(sessionStorage.getItem('user')){
       const chainLogout = await fetch(`http://localhost:5050/logout`, {
@@ -9,7 +11,7 @@ export function Logout(props){
       alert(result.message);
       if(result.success) {
         sessionStorage.removeItem('user');
-        props.setInLogin(false);
+        setInLogin(false);
         props.navigate("/")
       }
     }

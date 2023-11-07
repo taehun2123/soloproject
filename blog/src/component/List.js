@@ -1,8 +1,10 @@
+import { useLoginStore } from '../store/store';
 import styles from './List.module.css'
 export function List(props) {
+  const { inLogin } = useLoginStore();
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
   function loginWrite(){
-    if(props.inLogin){
+    if(inLogin){
       props.navigate("/write");
     } else {
       alert("로그인 후 이용 가능합니다.");

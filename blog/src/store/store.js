@@ -6,3 +6,8 @@ export const usePostStore = create((set)=>({
   plist : "",
   setPlist : (val) => set( (state) => ({ plist : val }) )
 }))
+
+export const useLoginStore = create((set)=>({
+  inLogin : false,
+  setInLogin : (val) => set( (state) => ({ inLogin : val }) )
+}))

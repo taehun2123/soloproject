@@ -1,14 +1,22 @@
-import { usePostStore } from '../store/store';
+import { useEffect } from 'react';
+import { useLoginStore, usePostStore } from '../store/store';
 import { Head } from './Head'
 import styles from './Write.module.css'
 export function Write(props) {
   const { inLogin, addPost, editPost, postIndex } = props;
   const {hlist, setHlist, plist, setPlist} = usePostStore();
+  const {setInLogin} = useLoginStore();
+  const storedUser = JSON.parse(sessionStorage.getItem('user'));
 
+  useEffect(()=>{
+    if (storedUser) {
+      setInLogin(true);
+    }
+  }, []);
 
   return (
     <>
-      <Head inLogin={inLogin} />
+      <Head/>
       <main>
         <article>
           <div className="list">

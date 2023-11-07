@@ -7,14 +7,14 @@ import { Login } from './component/Login';
 import { Signup } from './component/Signup';
 import { Logout } from './component/Logout';
 import { useEffect, useState} from 'react';
-import { usePostStore } from './store/store';
+import { useLoginStore, usePostStore } from './store/store';
 
 function App() {
   const {hlist, setHlist, plist, setPlist} = usePostStore();
   const [datafile, setDatafile] = useState([]);
   const navigate = useNavigate();
   const [postIndex, setPostIndex] = useState(null);
-  const [inLogin, setInLogin] = useState(false);
+  const {inLogin, setInLogin} = useLoginStore();
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
 
   // 게시글 목록 불러오기
@@ -114,21 +114,21 @@ function App() {
 
   return (
       <div className="App">
-        <Head setInLogin={setInLogin} inLogin={inLogin}/>
+        <Head/>
         <main>
           <Routes>
             <Route path="/" element={
-              <List datafile={datafile} selectedPost={selectedPost} navigate={navigate} inLogin={inLogin} deletePost={deletePost}/>
+              <List datafile={datafile} selectedPost={selectedPost} navigate={navigate} deletePost={deletePost}/>
             } />
               <Route path='/write' element={<Write addPost={addPost} postIndex={postIndex} editPost={editPost}/>} />
               <Route path='/login' element={
-                <Login navigate={navigate} inLogin={inLogin} setInLogin={setInLogin}/>
+                <Login navigate={navigate}/>
               }/>
               <Route path='/signup' element={
-                <Signup setInLogin={setInLogin} navigate={navigate}/>
+                <Signup navigate={navigate}/>
               }/>
               <Route path='/logout' element={
-                <Logout setInLogin={setInLogin} navigate={navigate}/>
+                <Logout navigate={navigate}/>
               }/>
           </Routes>
         </main>

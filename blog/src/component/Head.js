@@ -2,7 +2,9 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 import {App} from '../App'
 import { useState } from 'react';
 import styles from "./Head.module.css"
-export function Head(props) {
+import { useLoginStore } from '../store/store';
+export function Head() {
+  const {inLogin} = useLoginStore();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(1); // 현재 활성화된 탭을 추적하는 상태
   const handleTabClick = (item) => {
@@ -14,7 +16,7 @@ export function Head(props) {
     [
       { id: 1, title: '게시판', goto : "/" },
       { id: 2, title: '추후 예정', goto : "/"},
-      { id: 3, title: props.inLogin ? '로그아웃' : '로그인', goto : props.inLogin ? "/logout" : "/login"}
+      { id: 3, title: inLogin ? '로그아웃' : '로그인', goto : inLogin ? "/logout" : "/login"}
     ]
 
   return (
