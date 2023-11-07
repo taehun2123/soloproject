@@ -34,7 +34,7 @@ export function List(props) {
                 수정
               </button>
               <button
-              onClick={()=>{props.deletePost(item.id)}}
+              onClick={()=>{props.deletePost(index)}}
               className={styles.button} 
               style={{backgroundColor: "#CC0000", border:"none"}}
               >

@@ -15,4 +15,10 @@ module.exports = (app) =>{
 
   // POST 생성
   app.post("/post", posts.postCreate);
+
+  // id로 삭제
+  app.delete("/post/:postId", posts.delete);
+
+  // 전체 삭제
+  app.delete("/post", posts.deleteAll);
 }

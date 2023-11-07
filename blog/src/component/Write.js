@@ -1,7 +1,10 @@
+import { usePostStore } from '../store/store';
 import { Head } from './Head'
 import styles from './Write.module.css'
 export function Write(props) {
-  const { inLogin, setHlist, setPlist, addPost, editPost, hlist, plist, postIndex } = props;
+  const { inLogin, addPost, editPost, postIndex } = props;
+  const {hlist, setHlist, plist, setPlist} = usePostStore();
+
 
   return (
     <>

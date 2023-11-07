@@ -56,8 +56,7 @@ Post.create = (newPost, result)=>{
 
   // post id로 수정
   Post.updateByID = (id, post, result)=>{
-    sql.query('UPDATE posts SET title = ?, content = ?, date = ?, log = ? WHERE id = ?', 
-    [post.title, post.content, post.date, post.log, id], (err, res)=>{
+    sql.query('UPDATE posts SET ? WHERE id = ?', [post, id], (err, res)=>{
         if(err){
             console.log("에러 발생: ", err);
             result(err, null);
@@ -72,4 +71,39 @@ Post.create = (newPost, result)=>{
         result(null, {id:id, ...post});
     });
   };
+
+  // user id로 삭제
+Post.remove = (id, result)=>{
+  sql.query('DELETE FROM posts WHERE id = ?',id, (err, res)=>{
+      if(err){
+          console.log("error: ", err);
+          result(err, null);
+          return;
+      }
+      if(res.affectedRows ==0){
+          // id 결과가 없을 시 
+          result({kind: "not_found"}, null);
+          return;
+      }
+      console.log("해당 ID의 게시글이 정상적으로 삭제되었습니다: ", id);
+      result(null, res);
+  });
+};
+
+// user 전체 삭제
+Post.removeAll = result =>{
+  sql.query('DELETE FROM posts',(err, res)=>{
+      if(err){
+          console.log("error: ", err);
+          result(err, null);
+          return;
+      }
+      if(res.affectedRows ==0){
+          result({kind: "not_found"}, null);
+          return;
+      }
+      console.log(`${res.affectedRows} 개의 게시글을 삭제하였습니다.`);
+      result(null, res);
+  });
+};
 module.exports = Post;

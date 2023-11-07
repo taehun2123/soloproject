@@ -7,10 +7,10 @@ import { Login } from './component/Login';
 import { Signup } from './component/Signup';
 import { Logout } from './component/Logout';
 import { useEffect, useState} from 'react';
+import { usePostStore } from './store/store';
 
 function App() {
-  const [hlist, setHlist] = useState("");
-  const [plist, setPlist] = useState("");
+  const {hlist, setHlist, plist, setPlist} = usePostStore();
   const [datafile, setDatafile] = useState([]);
   const navigate = useNavigate();
   const [postIndex, setPostIndex] = useState(null);
@@ -62,8 +62,8 @@ function App() {
   }
 }
   
-  async function deletePost(id){{
-    const loadData = await fetch(`http://localhost:5050/postDelete/${id}`,{
+  async function deletePost(index){{
+    const loadData = await fetch(`http://localhost:5050/post/${datafile[index].id}`,{
       method: 'DELETE',
     });
     const result = await loadData.json();
@@ -88,7 +88,7 @@ function App() {
       const updatedData = {
         title: hlist,
         content: plist,
-        time : new Date().toLocaleString(),
+        date : new Date().toLocaleString(),
         log: storedUser.userId,
       };
       const loadData = await fetch(`http://localhost:5050/post/${datafile[postIndex].id}`,{
@@ -100,13 +100,15 @@ function App() {
       })
       const result = await loadData.json();
       alert(result.message);
-      navigate("/");
-      loadPost();
-      setHlist("");
-      setPlist("");
-      setPostIndex(null);
-    } else {
-      alert("제목과 내용을 작성해주세요!"); 
+      if(result.success){
+        navigate("/");
+        setHlist("");
+        setPlist("");
+        setPostIndex(null);
+        window.location.reload();
+      } else {
+        alert("제목과 내용을 작성해주세요!"); 
+      }
     }
   }
 
@@ -118,7 +120,7 @@ function App() {
             <Route path="/" element={
               <List datafile={datafile} selectedPost={selectedPost} navigate={navigate} inLogin={inLogin} deletePost={deletePost}/>
             } />
-              <Route path='/write' element={<Write setHlist={setHlist} setPlist={setPlist} addPost={addPost} hlist={hlist} plist={plist} postIndex={postIndex} editPost={editPost}/>} />
+              <Route path='/write' element={<Write addPost={addPost} postIndex={postIndex} editPost={editPost}/>} />
               <Route path='/login' element={
                 <Login navigate={navigate} inLogin={inLogin} setInLogin={setInLogin}/>
               }/>
