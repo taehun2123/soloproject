@@ -21,6 +21,7 @@ module.exports = (app) =>{
   app.delete("/users", users.deleteAll);
 
   /* -=-=-=-=-= 회원가입 / 로그인 관련 =-=-=-=-=- */
+
   // userId 중복 체크
   app.get("/signUp/:userId", users.checkId);
 
