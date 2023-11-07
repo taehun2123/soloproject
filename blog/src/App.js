@@ -20,6 +20,9 @@ function App() {
   // 게시글 목록 불러오기
   useEffect(()=>{
     loadPost();
+    if(storedUser){
+      setInLogin(true);
+    }
 }, [])
 
   function loadPost(){

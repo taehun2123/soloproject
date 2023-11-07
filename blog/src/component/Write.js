@@ -1,11 +1,11 @@
 import { Head } from './Head'
 import styles from './Write.module.css'
 export function Write(props) {
-  const { setHlist, setPlist, addPost, editPost, hlist, plist, postIndex } = props;
+  const { inLogin, setHlist, setPlist, addPost, editPost, hlist, plist, postIndex } = props;
 
   return (
     <>
-      <Head inLogin={props.inLogin} />
+      <Head inLogin={inLogin} />
       <main>
         <article>
           <div className="list">

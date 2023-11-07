@@ -1,6 +1,6 @@
 import styles from './List.module.css'
 export function List(props) {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedUser = JSON.parse(sessionStorage.getItem('user'));
   function loginWrite(){
     if(props.inLogin){
       props.navigate("/write");
@@ -24,7 +24,7 @@ export function List(props) {
       <div className={styles.list_text} key={index}>
         <div className={styles.list_hb}>
           <h4 style={{display: "flex", textAlign: "center"}}>{item.title}</h4>
-            {(storedUser && (item.log == storedUser.id)) 
+            {(storedUser && (item.log == storedUser.userId)) 
             && <>
               <button
               className={styles.button} 
