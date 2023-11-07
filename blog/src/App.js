@@ -35,27 +35,29 @@ function App() {
       const data = {
         title : hlist,
         content : plist,
-        thumb : 0,
-        time : new Date().toLocaleString(),
-        log: storedUser.id,
+        date : new Date().toLocaleString(),
+        log: storedUser.userId,
       }
-      await fetch(`http://localhost:5050/postInsert`,{
+      const createPost = await fetch(`http://localhost:5050/post`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       })
-      setHlist("");
-      setPlist("");
-      setPostIndex(null);
-      alert("성공적으로 게시물이 발행되었습니다.");
-      navigate("/");
-      window.location.reload(true);
-    } else {
-      alert("제목과 내용을 입력해주세요!"); 
-    }
+      const result = await createPost.json();
+      alert(result.message);
+      if(result.success) {
+        setHlist("");
+        setPlist("");
+        setPostIndex(null);
+        navigate("/");
+        window.location.reload(true);
+      } else {
+        alert("제목과 내용을 입력해주세요!"); 
+      }
   }
+}
   
   async function deletePost(id){{
     const loadData = await fetch(`http://localhost:5050/postDelete/${id}`,{
@@ -68,7 +70,7 @@ function App() {
 }
 
   function selectedPost(index){  //index 값을 이용하여 수정 게시글 변경하는 방법
-    if (datafile[index].log==storedUser.id){
+    if (datafile[index].log==storedUser.userId){
     navigate("/write");
     setHlist(datafile[index].title);
     setPlist(datafile[index].content);
@@ -81,13 +83,13 @@ function App() {
   async function editPost(){
     if(hlist && plist !== ""){
       const updatedData = {
-        id: datafile[postIndex].id, // 게시물 식별자 (예: 게시물의 고유 ID)
         title: hlist,
         content: plist,
-        log: storedUser.id,
+        time : new Date().toLocaleString(),
+        log: storedUser.userId,
       };
-      const loadData = await fetch(`http://localhost:5050/postUpdate`,{
-        method: "POST",
+      const loadData = await fetch(`http://localhost:5050/post/${datafile[postIndex].id}`,{
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },

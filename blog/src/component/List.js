@@ -44,7 +44,7 @@ export function List(props) {
               }
         </div>
         <p>{item.content}</p>
-        <p>발행일 : {item.time}</p>
+        <p>발행일 : {item.date}</p>
       </div>
     ))
     : '로딩중 입니다..'}

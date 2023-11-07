@@ -5,7 +5,7 @@ export function Write(props) {
 
   return (
     <>
-      <Head />
+      <Head inLogin={props.inLogin} />
       <main>
         <article>
           <div className="list">

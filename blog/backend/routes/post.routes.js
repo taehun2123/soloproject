@@ -10,7 +10,7 @@ module.exports = (app) =>{
   // Post id로 조회
   app.get("/post/:postId", posts.findOne);
 
-  // Post id로 수정
+  //Post id로 수정
   app.put("/post/:postId", posts.update);
 
   // POST 생성

@@ -2,11 +2,10 @@ const sql = require('./db.js');
 
 // 생성자
 const Post = function(post){
-
   this.title = post.title;
-
   this.content = post.content;
-
+  this.date = post.date;
+  this.log = post.log;
 };
 
 // post 튜플 추가 (C)
@@ -21,6 +20,7 @@ Post.create = (newPost, result)=>{
       console.log("새 게시글이 생성되었습니다: ",{id: res.insertId, ...newPost });
       result(null, {id: res.insertId, ...newPost});
   });
+};
 
   // Post id로 조회
   Post.findByID = (postID, result)=>{
@@ -56,7 +56,7 @@ Post.create = (newPost, result)=>{
 
   // post id로 수정
   Post.updateByID = (id, post, result)=>{
-    sql.query('UPDATE posts SET title = ?, content = ? date = ?, log = ? WHERE id = ?', 
+    sql.query('UPDATE posts SET title = ?, content = ?, date = ?, log = ? WHERE id = ?', 
     [post.title, post.content, post.date, post.log, id], (err, res)=>{
         if(err){
             console.log("에러 발생: ", err);
@@ -68,8 +68,8 @@ Post.create = (newPost, result)=>{
             result({kind: "not_found"}, null);
             return;
         }
-        console.log("게시글을 수정하였습니다: ", {id:id, ... user});
-        result(null, {id:id, ...user});
+        console.log("게시글을 수정하였습니다: ", {id:id, ...post});
+        result(null, {id:id, ...post});
     });
   };
-};
+module.exports = Post;

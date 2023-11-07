@@ -44,15 +44,15 @@ exports.findAll = (req,res)=>{
 
 // id로 조회
 exports.findOne = (req,res)=>{
-    User.findById(req.params.userId, (err, data) => {
+    User.findById(req.params.id, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `해당 ID : ${req.params.userId} 를 가진 유저를 찾을 수 없습니다.`
+              message: `해당 ID : ${req.params.id} 를 가진 유저를 찾을 수 없습니다.`
             });
           } else {
             res.status(500).send({
-              message: "다음 ID를 가진 유저를 찾는 중 오류가 발생했습니다. " + req.params.userId
+              message: "다음 ID를 가진 유저를 찾는 중 오류가 발생했습니다. " + req.params.id
             });
           }
         } else res.send(data);
@@ -70,17 +70,17 @@ exports.update = (req,res)=>{
   }
 
   User.updateById(
-    req.params.userId,
+    req.params.id,
     new User(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `다음 유저를 찾을 수 없습니다. ${req.params.userId}.`
+            message: `다음 유저를 찾을 수 없습니다. ${req.params.id}.`
           });
         } else {
           res.status(500).send({
-            message: "다음 Id를 가진 유저를 갱신하는 데 오류가 발생했습니다. " + req.params.userId
+            message: "다음 Id를 가진 유저를 갱신하는 데 오류가 발생했습니다. " + req.params.id
           });
         }
       } else res.send(data);
